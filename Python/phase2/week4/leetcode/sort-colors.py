@@ -6,7 +6,6 @@ class Solution:
         i = 0
 
         while i <= end:
-            
             if arr[i] == 0:
                 arr[i], arr[start] = arr[start], arr[i]
                 start += 1
