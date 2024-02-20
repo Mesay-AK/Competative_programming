@@ -1,39 +1,38 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def mergeTwoLists(self, list1, list2):
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(0, None)
 
-        if list1 == None:
-            return list2
-        elif list2 == None:
-            return list1
-        if list1.val <= list2.val :
-            temp= current=ListNode(list1.val)
-            list1=list1.next
-        else:
-            temp= current=ListNode(list2.val)
-            list2=list2.next
+        first = list1
+        second = list2
+         
+        def compare(main, first, second):
+            curr = main
+            if not first:
+                curr.next = second
+                return curr
 
-        while list1 != None and list2 != None:
-            if list1.val <= list2.val:
-                current.next=ListNode(list1.val)
-                list1=list1.next
-                current = current.next
-            elif list1.val > list2.val:
-                current.next = ListNode(list2.val)
-                list2 = list2.next
-                current = current.next
-    
-        while list2 is not None:   
-            current.next = ListNode(list2.val)
-            list2 =list2.next
-            current=current.next
-        
-        while list1 is not None:   
-            current.next = ListNode(list1.val)
-            list1 = list1.next
-            current=current.next
-        return temp
+            elif not second:
+                curr.next = first
+                return curr
+
+            if first.val < second.val:
+                curr.next = first
+                temp = first.next
+                first.next = None
+                first = temp
+
+            else:
+                curr.next = second
+                temp = second.next
+                second.next = None
+                second = temp
+
+            return compare(curr.next, first, second)
+        compare(dummy, first, second)
+
+        return dummy.next
